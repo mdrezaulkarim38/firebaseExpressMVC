@@ -124,4 +124,29 @@ class DB
             throw error;
         }
     }
+
+    async deleteById(dataId, database) 
+    {
+        if (!dataId) 
+        {
+            throw new Error('Data ID is required');
+        }
+        let dataRef = this.database.ref(database);
+        try 
+        {
+            let query = dataRef.orderByChild("id").equalTo(dataId);
+            let snapshot = await query.once('value');
+            let data = snapshot.val();
+            if (!data) {
+                throw new Error('Data not found');
+            }
+            let key = Object.keys(data)[0];
+            let specificDataRef = dataRef.child(key);
+            await specificDataRef.remove();
+        } 
+        catch (error) 
+        {
+            throw error;
+        }
+    }
 }
