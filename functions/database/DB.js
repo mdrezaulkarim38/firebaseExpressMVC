@@ -20,5 +20,17 @@ class DB
         }
     }
 
-    async
+    async getAllData(database)
+    {
+        let dataRef = this.database.ref(database);
+        try
+        {
+            let snapshot = await dataRef.once('value');
+            return snapshot.val();
+        }
+        catch (error)
+        {
+            throw error;
+        }
+    }
 }
