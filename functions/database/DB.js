@@ -1,4 +1,4 @@
-const firebaseAdmin = require("../config/dbConfig");
+let firebaseAdmin = require("../config/dbConfig");
 class DB 
 {
     constructor()
