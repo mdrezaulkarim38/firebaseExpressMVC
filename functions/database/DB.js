@@ -100,4 +100,28 @@ class DB
             throw error;
         }
     }
+
+    async updateDataByDate(database, date, newData) {
+        if (!date) 
+        {
+            throw new Error('Data date is required');
+        }
+        let dataRef = this.database.ref(database);
+        try 
+        {
+            let snapshot = await dataRef.orderByChild("date").equalTo(date).once('value');
+            let data = snapshot.val();
+            if (!data) 
+            {
+                throw new Error('Data not found');
+            }
+            let key = Object.keys(data)[0];
+            let specificDataRef = dataRef.child(key);
+            await specificDataRef.update(newData);
+        } 
+        catch (error) 
+        {
+            throw error;
+        }
+    }
 }
