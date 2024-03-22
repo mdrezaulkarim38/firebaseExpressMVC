@@ -2,8 +2,6 @@ module.exports = class TestController {
   // Read operation (GET all tests)
   static async getAllTests(req, res) {
     try {
-      // Perform any necessary database operations to retrieve all tests
-      // For demonstration purposes, we're simply sending a message
       let message = "This is Testing";
       res.status(200).send(message);
     } catch (error) {
@@ -15,11 +13,7 @@ module.exports = class TestController {
   // Read operation (GET a test by ID)
   static async getTestById(req, res) {
     try {
-      // Extract ID from request parameters
       const id = req.params.id;
-
-      // Perform any necessary database operations to retrieve the test by ID
-      // For demonstration purposes, we're simply sending a message with the ID
       let message = `Retrieving test with ID: ${id}`;
       res.status(200).json({ status: "success", msg: message });
     } catch (error) {
@@ -31,8 +25,6 @@ module.exports = class TestController {
   // Create operation (POST)
   static async createTest(req, res) {
     try {
-      // Extract data from request body and create a new test
-      // For demonstration purposes, we're simply sending a success message
       let message = "Test created successfully";
       res.status(201).json({ status: "success", msg: message });
     } catch (error) {
@@ -44,8 +36,6 @@ module.exports = class TestController {
   // Update operation (PUT)
   static async updateTest(req, res) {
     try {
-      // Extract data from request body and update the specified test
-      // For demonstration purposes, we're simply sending a success message
       let message = "Test updated successfully";
       res.status(200).json({ status: "success", msg: message });
     } catch (error) {
@@ -57,8 +47,6 @@ module.exports = class TestController {
   // Delete operation (DELETE)
   static async deleteTest(req, res) {
     try {
-      // Extract ID from request parameters and delete the specified test
-      // For demonstration purposes, we're simply sending a success message
       let message = "Test deleted successfully";
       res.status(200).json({ status: "success", msg: message });
     } catch (error) {
