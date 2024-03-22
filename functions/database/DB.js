@@ -47,5 +47,57 @@ class DB
             throw error;
         }
     }
-    
+
+    async getDataByType(dataType, database) 
+    {
+        let dataRef = this.database.ref(database);
+        try 
+        {
+            let snapshot = await dataRef.orderByChild("type").equalTo(dataType).once('value');
+            return snapshot.val();
+        } 
+        catch (error) 
+        {
+            throw error;
+        }
+    }
+
+    async create(data, database)
+    {
+        let dataRef = this.database.ref(database);
+        try
+        {
+            let newDataRef = dataRef.push();
+            await newDataRef.set(data);
+        }
+        catch(error)
+        {
+            throw error;
+        }
+    }
+
+    async update(dataId, updateData, database)
+    {
+        if(!dataId)
+        {
+            throw new Error('Data ID is required');
+        }
+        let dataRef = this.database.ref(database);
+        try
+        {
+            let snapshot = await dataRef.orderByChild("id").equalTo(dataId).once('value');
+            let data = snapshot.val();
+            if(!data)
+            {
+                throw new Error('Data Not Found');
+            }
+            let key = Object.keys(data)[0];
+            let specificDataRef = dataRef.child(key);
+            await specificDataRef.update(updateData);
+        }
+        catch(error)
+        {
+            throw error;
+        }
+    }
 }
