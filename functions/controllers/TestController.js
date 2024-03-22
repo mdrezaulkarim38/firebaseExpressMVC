@@ -1,11 +1,14 @@
+let Test = require("../services/Test");
+let { getLanguage, getMessage } = require("../config/language");
 module.exports = class TestController {
   // Read operation (GET all tests)
   static async getAllTests(req, res) {
-    try {
-      let message = "This is Testing";
-      res.status(200).send(message);
-    } catch (error) {
-      console.error(error);
+    try 
+    {
+      let test = await Test.getAllTest();
+      res.status(200).json(test);
+    } 
+    catch (error) {
       res.status(500).json({ status: "error", msg: "Something went wrong" });
     }
   }
