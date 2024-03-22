@@ -12,7 +12,7 @@ router.get("/api/test", TestController.getAllTests);
 router.get("/api/test/:id", TestController.getTestById);
 
 // PUT route to update a test by ID
-router.put("/api/test/:id", TestController.updateTest);
+router.put("/api/test", TestController.updateTest);
 
 // DELETE route to delete a test by ID
 router.delete("/api/test/:id", TestController.deleteTest);
