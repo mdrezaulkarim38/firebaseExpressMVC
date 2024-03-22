@@ -33,4 +33,19 @@ class DB
             throw error;
         }
     }
+
+    async getDataById(dataId, database)
+    {
+        let dataRef = this.database.ref(database);
+        try
+        {
+            let snapshot = await dataRef.orderByChild("id").equalTo(dataId).once('value');
+            return snapshot.val();
+        }
+        catch(error)
+        {
+            throw error;
+        }
+    }
+    
 }
