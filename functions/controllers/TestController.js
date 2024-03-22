@@ -16,11 +16,18 @@ module.exports = class TestController {
   // Read operation (GET a test by ID)
   static async getTestById(req, res) {
     try {
-      const id = req.params.id;
-      let message = `Retrieving test with ID: ${id}`;
-      res.status(200).json({ status: "success", msg: message });
+      let testId = req.params.id;
+      let test = new Test();
+      let data = await test.getTestById(testId);
+      if(data)
+      {
+        res.status(200).json( data );
+      }
+      else
+      {
+        res.status(404).json({ status: "error", msg: "Test Now Found"});
+      }
     } catch (error) {
-      console.error(error);
       res.status(500).json({ status: "error", msg: "Something went wrong" });
     }
   }
@@ -28,10 +35,11 @@ module.exports = class TestController {
   // Create operation (POST)
   static async createTest(req, res) {
     try {
-      let message = "Test created successfully";
-      res.status(201).json({ status: "success", msg: message });
+      let { testName, age } = req.body;
+      let  newTest = new Test(testName, age);
+      await newTest.create();
+      return res.status(201).json({ status: "success", msg: "Test added successfully"});
     } catch (error) {
-      console.error(error);
       res.status(500).json({ status: "error", msg: "Something went wrong" });
     }
   }
@@ -39,10 +47,14 @@ module.exports = class TestController {
   // Update operation (PUT)
   static async updateTest(req, res) {
     try {
-      let message = "Test updated successfully";
-      res.status(200).json({ status: "success", msg: message });
+      if(!req.body.id || req.body.id.trim() == '')
+      {
+        return res.status(400).json({ status: "error", msg: "Bad request. ID is mandatory." });
+      }
+      let test = new Test();
+      await test.updateTestById(req.body.id, req.body);
+      return res.status(202).json({ status: "success", msg: "Test updated successfully." });
     } catch (error) {
-      console.error(error);
       res.status(500).json({ status: "error", msg: "Something went wrong" });
     }
   }
@@ -50,10 +62,10 @@ module.exports = class TestController {
   // Delete operation (DELETE)
   static async deleteTest(req, res) {
     try {
-      let message = "Test deleted successfully";
-      res.status(200).json({ status: "success", msg: message });
+      let test = new Test();
+      await test.deleteById(req.params.id);
+      res.status(200).json({ status: "success", msg: "Test deleted successfully" });
     } catch (error) {
-      console.error(error);
       res.status(500).json({ status: "error", msg: "Something went wrong" });
     }
   }
